@@ -142,7 +142,7 @@ exports.getAllProducts = (req, res) => {
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
   Product.find()
     .select("-photo")
-    .populate("Category")
+    .populate("category")
     .sort([[sortBy, "asc"]])
     .limit(limit)
     .exec((err, products) => {
