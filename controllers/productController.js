@@ -5,7 +5,7 @@ const fs = require("fs");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
-    .populate("Category")
+    .populate("category")
     .exec((err, product) => {
       if (err || !product) {
         return res.status(400).json({
