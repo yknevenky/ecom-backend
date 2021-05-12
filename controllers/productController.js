@@ -18,18 +18,21 @@ exports.getProductById = (req, res, next, id) => {
 };
 
 exports.createProductController = (req, res) => {
-  console.log("Helllo")
+
+  console.log("\n\nCreate product controller starts\n\n");
+  
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
-
+  console.log(req,"req")
   form.parse(req, (err, fields, file) => {
     if (err) {
-      console.log("INIT ERRORRRRR")
+      console.log("\n\nRequest parsing error\n\n")
       return res.status(400).json({
         error: "problem with image",
       });
     }
-    console.log(fields, "fields\n")
+    console.log("\nFields\n", fields);
+
     // Destructure the fields
     const { price, name, description, category, stock } = fields;
 
@@ -41,11 +44,11 @@ exports.createProductController = (req, res) => {
     }
 
     let product = new Product(fields);
-    // console.log(product)
-    // Handle file here
+    console.log("Product\n",product)
+    
     if (file.photo) {
       if (file.photo.size > 3000000) {
-        console.log("FILE ERRORRRRR")
+        console.log("Photo size is more than 3 MB\n\n\n")
         return res.status(400).json({
           error: "File size is more than 3 MB",
         });
@@ -56,13 +59,13 @@ exports.createProductController = (req, res) => {
     // Save to DB
     product.save((err, savedProduct) => {
       if (err) {
-        console.log("DB ERRORRRRR")
+        console.log("Error while saving to DB\n\n", err)
         return res.status(400).json({
           error: "Failed to save in DB",
         });
       }
-      console.log(savedProduct, "savedProduct")
-      res.json(savedProduct);
+      console.log("SavedProduct\n",res.json(savedProduct))
+      return res.json(savedProduct);
     });
   });
 };
